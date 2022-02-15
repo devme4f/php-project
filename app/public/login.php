@@ -1,8 +1,5 @@
 <?php
-	exit();
 	session_start();
-	$message = '';
-	
 ?>
 
 <!DOCTYPE html>
@@ -10,24 +7,32 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="">
+	<link rel="stylesheet" type="text/css" href="./static/login.css">
 	<title>Login page</title>
 </head>
 <body>
-	<form method="POST" name="login" action="" aligh="center">
-		<div class="message"><?php if($message!="") {echo $message;} ?></div>
-		<h3 align="center">Login</h3>
-		 Username:<br>
-		 <input type="text" name="username">
-		 <br>
-		 Password:<br>
-		<input type="password" name="password">
-		<br><br>
-		<input type="submit" name="submit" value="Submit">
-		<input type="reset">
-	</form>
+	<div class="container">
+		<?php 
+			if(isset($_SESSION['message'])) echo "<script>alert('".$_SESSION['message']."')</script>";
+		?>
+		<h1 id='text1'>LOGIN</h1>
+		<form method="POST" action="login_p.php" >
+			<div class="txt">
+				<span></span>
+				<input type="text" required name="username" />
+				<label>Username</label>
+			</div>
+			<div class="txt">
+				<input type="password" required name="password" />
+ 				<label>Password</label>	
+				 <span></span>
+			</div>
+			<button type="submit" name="login">Login</button>
+			<div class="signup">
+				Not a member? 
+				<a href="register.php">Sign up</a>
+			</div>
+		</form>
+	</div>
 </body>
 </html>
-<?php
-	
-?>

@@ -2,14 +2,14 @@
 	
 	$pdo = new PDO('mysql:dbname=test;host=mysql', 'test', 'test', [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]); 
 	try {
-	$result = $pdo->query('SELECT username FROM users LIMIT 1');
+	$result = $pdo->query('SELECT username FROM users');
 	$rows = $result->fetch();
 
 	} catch(PDOException $e) {
 		echo $e->getMessage(); //Remove or change message in production code
 	}
 
-	echo $rows['username'];
+	var_dump($rows);
 	exit();
 	session_start();
 
