@@ -3,7 +3,7 @@ services:
     web:
         image: nginx:latest
         ports:
-            - "80:80"
+            - "8080:80"
         volumes:
             - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
             - ./app:/app
@@ -13,6 +13,7 @@ services:
             dockerfile: PHP.Dockerfile
         volumes:
             - ./app:/app
+            #- ./php.ini:/etc/php/7.4/cli
     mysql:
         image: mariadb:latest
         environment:

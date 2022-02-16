@@ -1,0 +1,1 @@
+chown -R www-data:www-data /app && chmod -R g+rw /app

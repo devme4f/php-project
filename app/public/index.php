@@ -1,27 +1,17 @@
 <?php
 	
-<<<<<<< Updated upstream
-	$pdo = new PDO('mysql:dbname=test;host=mysql', 'test', 'test', [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]); 
-	try {
-	$result = $pdo->query('SELECT username FROM users');
-	$rows = $result->fetch();
-
-	} catch(PDOException $e) {
-		echo $e->getMessage(); //Remove or change message in production code
-	}
-
-	var_dump($rows);
-=======
-	phpinfo();
-	header("Cache-Control: no-cache");
->>>>>>> Stashed changes
-	exit();
 	session_start();
-
-	if(false){ # logged-in???
+	if(!isset($_SESSION['username'])){
 		header("Location: login.php");
-		exit();
+		exit('You have to log in first, redirecting...');
 	}
+
+	$username = $_SESSION['username'];
+	if(isset($_GET['message']) || isset($_GET['code'])){
+		$message = htmlspecialchars($_GET['message']); // XSS
+		$code = htmlspecialchars($_GET['code']);
+	}
+
 
 ?>
 <!DOCTYPE html>
@@ -33,8 +23,26 @@
 	<link rel="stylesheet" type="text/css" href="static/style.css">
 </head>
 <body>
+
 	<div class="center-screen">
-	Upload file goes here!!
+	<form action="upload.php" method="post" enctype="multipart/form-data">
+		Select image to upload:
+		<input type="file" name="fileToUpload" id="file">
+		<input type="submit" name="submit" value="upload-file">
+		<?php
+			if(isset($code)){
+				if($code){
+					$msg = '<p style="color:green">';
+				}
+				else{
+					$msg = '<p style="color:red">';
+				}
+				$msg .= $message . '</p>';
+				echo $msg;
+			}
+		?>
+	</form>
 	</div>
+
 </body>
 </html>
