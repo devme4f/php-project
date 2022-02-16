@@ -1,5 +1,6 @@
 <?php
 	
+<<<<<<< Updated upstream
 	$pdo = new PDO('mysql:dbname=test;host=mysql', 'test', 'test', [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]); 
 	try {
 	$result = $pdo->query('SELECT username FROM users');
@@ -10,6 +11,10 @@
 	}
 
 	var_dump($rows);
+=======
+	phpinfo();
+	header("Cache-Control: no-cache");
+>>>>>>> Stashed changes
 	exit();
 	session_start();
 
@@ -18,7 +23,6 @@
 		exit();
 	}
 
-	header("Cache-Control: no-cache");
 ?>
 <!DOCTYPE html>
 <html>
