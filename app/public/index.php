@@ -3,7 +3,7 @@
 	session_start();
 	if(!isset($_SESSION['username'])){
 		header("Location: login.php");
-		exit('You have to log in first, redirecting...');
+		die('You have to log in first, redirecting...');
 	}
 
 	$username = $_SESSION['username'];
@@ -31,7 +31,7 @@
 		<input type="file" name="fileToUpload" id="file">
 		<input type="submit" name="submit" value="upload-file">
 		<?php
-			if(isset($code)){
+			if(isset($code) || isset($message)){
 				if($code){
 					$msg = '<p style="color:green">';
 				}

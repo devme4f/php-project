@@ -1,6 +1,6 @@
 <?php
 	
-	function redirect($url, $statusCode = 303){
+	function redirect($url, $statusCode = 302){
 	   header('Location: ' . $url, true, $statusCode);
 	   die();
 	}
@@ -31,7 +31,7 @@
 	function check($file_name, $path_tmp){
 	
 		//check file size
-		if(filesize($path_tmp) > 100000){ // 100 000 bytes(1MB
+		if(filesize($path_tmp) > 150000){ // 150 000 bytes(1MB
 			return "Error, file is too large!!";
 		}
 
@@ -59,7 +59,7 @@
 	$code = 0;
 
 	if($message === true){
-		$target_dir = '../uploads/' . $_SESSION['username'];
+		$target_dir = './uploads/' . $_SESSION['username'];
 
 		if (!file_exists($target_dir)) {
     		mkdir($target_dir, 0777, true);
