@@ -1,6 +1,8 @@
 <?php 
     session_start();
     require_once 'connect.php';
+
+    // cái này dùng để escape chứ sao lại encode di??
     function test_input($data) {
         $data = trim($data);
         $data = stripslashes($data);
@@ -13,15 +15,19 @@
         // $responseData = json_decode($verifyResponse);
         // if ($responseData->susscess){
             try{
-                $username = test_input($_POST["username"]);
+                // chưa check trong database liệu đã tồn tại user nó định đăng kí chưa. Lỡ người dùng đăng kí admin thì password sẽ bị overwrite(create table khong set do not overwrite )
+
+                // bằng cách này t đã đổi đc mật khẩu admin, thu xem....
+
+                $username = test_input($_POST["username"]); 
                 // check if name only contains letters and whitespace
-                if (!preg_match("/^[a-zA-Z-' ]*$/",$username)) {
-                    $_SESSION['err'] = "Only letters and white space allowed";
+                if (!preg_match("/^[a-zA-Z0-9' ]*$/",$username)) {
+                    $_SESSION['err'] = "Only letters, numbers and white space allowed";
                 echo "<script>window.location = 'register.php'</script>";
                 exit();
                 }
     
-                ///////////
+                /////////// password cho newline, whitespace thoai mai chu sao lai khong???
                 $password = test_input($_POST["password"]);
                 if (!preg_match("/^[^\n ]*$/",$password)) {
                 // check if pass contain newline or whitespace

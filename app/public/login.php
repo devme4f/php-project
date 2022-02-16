@@ -1,10 +1,12 @@
 <?php 
     session_start();
     require_once 'connect.php';
+
     function test_input($data) {
         $data = trim($data);
         $data = stripslashes($data);
-        $data = htmlspecialchars($data);
+        $data = htmlspecialchars($data); 
+
         return $data;
     }
     require_once 'connect.php';
