@@ -28,6 +28,11 @@ body {
     box-sizing: border-box;
 }
 
+.mess {
+    text-align: center;
+    padding: 0 0 20px 0;
+}
+
 form .txt {
     position: relative;
     border-bottom: 2px solid #adadad;
