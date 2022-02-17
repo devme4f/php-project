@@ -2,23 +2,19 @@
     session_start();
     require_once 'connect.php';
 
-    // cái này dùng để escape chứ sao lại encode di??
+    // func sanitize
     function test_input($data) {
         $data = trim($data);
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
         return $data;
     }
-    if(isset($_POST['register'])){ //&& isset($_POST['g-recaptcha'])){
-        // $secret= '6LcbnIAeAAAAACHu-VRa8u1qMYSytumPDlwb_tCY';
-        // $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $_POST['g-recaptcha-response']);
-        // $responseData = json_decode($verifyResponse);
+    if(isset($_POST['register'])){ //&& !empty($_POST['g-recaptcha-response'])){
+        // $secret = '6LcbnIAeAAAAACHu-VRa8u1qMYSytumPDlwb_tCY';
+        // $verify_response = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
+        // $response_data = json_decode($verify_response);
         // if ($responseData->susscess){
             try{
-                // chưa check trong database liệu đã tồn tại user nó định đăng kí chưa. Lỡ người dùng đăng kí admin thì password sẽ bị overwrite(create table khong set do not overwrite )
-
-                // bằng cách này t đã đổi đc mật khẩu admin, thu xem....
-
                 $username = test_input($_POST["username"]); 
                 // check if name only contains letters and whitespace
                 if (!preg_match("/^[a-zA-Z0-9' ]*$/",$username)) {
@@ -26,20 +22,21 @@
                 echo "<script>window.location = 'register.php'</script>";
                 exit();
                 }
-    
-                /////////// password cho newline, whitespace thoai mai chu sao lai khong???
-                $password = test_input($_POST["password"]);
-                if (!preg_match("/^[^\n ]*$/",$password)) {
-                // check if pass contain newline or whitespace
-                $_SESSION['err'] = "Newline and white space is not allowed";
-                echo "<script>window.location = 'register.php'</script>";
-                }
-    
                 ##reminder:  encrypt password  
-                $exec= $conn->prepare("INSERT INTO users (username, password) VALUES (:user, :pass)");
-                $exec->bindValue(':user',$username);
-                $exec->bindValue(':pass',$password);
-                $exec->execute();
+                $password = test_input($_POST["password"]);
+                $select=$conn->prepare("SELECT * FROM users WHERE username =:user");
+                $select->bindValue(':user',$username);
+                $select->execute();
+                if(($select->rowCount()) > 0){
+                    $_SESSION['err'] = "User already exists, try again!";
+                    echo "<script>window.location = 'register.php'</script>";
+                }
+                else{
+                    $exec= $conn->prepare("INSERT INTO users (username, password) VALUES (:user, :pass)");
+                    $exec->bindValue(':user',$username);
+                    $exec->bindValue(':pass',$password);
+                    $exec->execute();
+                }
             }
             catch(PDOException $e){
                 echo $e->getMessage();
@@ -90,15 +87,13 @@
 					},3000)
 				})();
 			</script>
-            <!-- <div class="g-recaptcha" data-sitekey="6LcbnIAeAAAAAAUS8OfziJMDQM7X-0n6m_8EAEdY">
-
-            </div> -->
-            <button class="btn btn-primary form-control" name="register">Register</button>
+            <div class="g-recaptcha" data-sitekey="6LcbnIAeAAAAAAUS8OfziJMDQM7X-0n6m_8EAEdY"></div>
+            <button class="btn btn-primary form-control" name="password-reset-token">Register</button>
             <div class="login">
 				Already have an account?
 				<a href="login.php">Login</a>
 			</div>
+            
         </form>
     </div>
-
 </body>
