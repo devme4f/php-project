@@ -6,4 +6,8 @@ File upload, download application with authentication
 		conf directory
 		configuration
 
+	qquang:
+		config captcha serverside(somehow is not working..)
+		encrypt password (optional)
+
 	Using import other than keep redirecting.
