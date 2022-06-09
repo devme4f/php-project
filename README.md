@@ -1,5 +1,5 @@
 # php-project
-File upload, download application with authentication
+web application upload and download images
 
 ## To do list
 	devme4f: 
@@ -10,4 +10,4 @@ File upload, download application with authentication
 		config captcha serverside(somehow is not working..)
 		encrypt password (optional)
 
-	Using import other than keep redirecting.
+	Using include instead of redirecting.
